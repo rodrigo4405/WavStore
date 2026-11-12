@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            asset: wavstore-linux
+          - os: windows-latest
+            asset: wavstore-windows.exe
+          - os: macos-latest
+            asset: wavstore-macos
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - run: pip install -r requirements.txt
+      - run: pip install pyinstaller
+      - run: pyinstaller --onefile --name wavstore src/main.py
+      - name: Rename binary (Linux/macOS)
+        if: runner.os != 'Windows'
+        run: mv dist/wavstore dist/${{ matrix.asset }}
+      - name: Rename binary (Windows)
+        if: runner.os == 'Windows'
+        run: mv dist/wavstore.exe dist/${{ matrix.asset }}
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/${{ matrix.asset }}

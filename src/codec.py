@@ -10,7 +10,7 @@ from utils import file_size
 
 N_TONES = 16
 CHUNK = 250
-START = 445
+START = 450
 STEP = 50
 DURATION = 0.075
 F_MAX = START + (N_TONES - 1) * STEP
@@ -79,9 +79,10 @@ def decode(path, out):
         return
 
     Path(out).mkdir(exist_ok=True)
-    Path(out, Path(name).name).write_bytes(data)
+    fpath = Path(out, Path(name).name)
+    fpath.write_bytes(data)
 
-    print(f"Recovered file can be found at {out+name}  \n(sha256 checksum): {checksum(data)}")
+    print(f"Recovered file can be found at {fpath.absolute()}  \n(sha256 checksum): {checksum(data)}")
 
 def encode(path, out):
     data = zlib.compress(pack(Path(path)), level=9)
@@ -100,4 +101,4 @@ def encode(path, out):
             notes = [music.note(sample, duration=DURATION, sample_rate=SAMPLE_RATE) for sample in samples[start:start+CHUNK]]
             f.write(music.horizontal_stack(*notes))
 
-    print(f"\nOutput can be found at: {out + fpath.name} [{file_size(fpath)}] \n(sha256 checksum): {checksum(Path(path).read_bytes())}")
+    print(f"\nOutput can be found at: {fpath.absolute()} [{file_size(fpath)}] \n(sha256 checksum): {checksum(Path(path).read_bytes())}")

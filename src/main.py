@@ -36,6 +36,7 @@ def main():
         case "encode":  encode(args.infile, out=args.outdir or ENCODE_OUTPUT)
         case "decode":  decode(args.infile, out=args.outdir or DECODE_OUTPUT)
         case "compare": print({"The files match!" if compareSha256(args.file1, args.file2) else "The files don't match!"})
+        case _:         parser.print_usage()
 
 
 if __name__ == "__main__":
