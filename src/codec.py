@@ -84,7 +84,7 @@ def decode(path, out):
 
     print(f"Recovered file can be found at {fpath.absolute()}  \n(sha256 checksum): {checksum(data)}")
 
-def encode(path, out):
+def encode(path, name, out):
     data = zlib.compress(pack(Path(path)), level=9)
     
     samples = []
@@ -93,7 +93,7 @@ def encode(path, out):
         samples.append(byte_to_freq(byte & 0x0F))
 
     Path(out).mkdir(exist_ok=True)
-    fpath = Path(out, "encoded.wav")
+    fpath = Path(out, name.rstrip(".wav") + ".wav")
 
     print("\nEncoding your file. Please wait...")
     with sf.SoundFile(fpath, "w", samplerate=SAMPLE_RATE, channels=1, subtype="PCM_U8") as f:
