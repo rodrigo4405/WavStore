@@ -7,7 +7,7 @@ WavStore takes a file and turns it into a `.wav` made up of pure sine waves. It 
 
 <img src="docs/spectrogram.png" alt="Spectrogram of a WavStore carrier" width="600">
 
-*Spectrogram of `samples/encoded.wav`.*
+*Spectrogram of `docs/demo.wav`.*
 
 ## Try it in two minutes
 
@@ -32,10 +32,10 @@ chmod +x wavstore-linux
 
 ### 2. Try the demo
 
-There's already a file hidden inside `samples/demo.wav`. To get it back, run:
+There's already a file hidden inside `docs/demo.wav`. To get it back, run:
 
 ```bash
-wavstore decode samples/demo.wav -o recovered/
+wavstore decode docs/demo.wav -o recovered/
 ```
 
 ### 3. Encode a file
@@ -43,8 +43,8 @@ wavstore decode samples/demo.wav -o recovered/
 You can encode any file and then decode it again:
 
 ```bash
-wavstore encode myfile.pdf -o out/
-wavstore decode out/encoded.wav -o back/
+wavstore encode myfile.pdf -o out/ --name myfile
+wavstore decode out/myfile.wav -o recovered/
 ```
 
 ### 4. Check the result
@@ -52,7 +52,7 @@ wavstore decode out/encoded.wav -o back/
 To make sure everything worked, compare the original file with the recovered one:
 
 ```bash
-wavstore compare myfile.pdf back/myfile.pdf
+wavstore compare myfile.pdf recovered/myfile.pdf
 ```
 
 This compares their SHA-256 hashes and tells you whether the files are identical.
@@ -128,7 +128,7 @@ pip install -r requirements.txt
 You can then run the commands directly through Python:
 
 ```bash
-python src/main.py encode <input-file> -o <output-dir>
+python src/main.py encode <input-file> -o <output-dir> --name <output-name>
 python src/main.py decode <input.wav> -o <output-dir>
 python src/main.py compare <original-file> <recovered-file>
 ```
@@ -141,9 +141,9 @@ WavStore/
 │   └── workflows/
 │       └── release.yml     # Builds executables for Windows, macOS and Linux
 ├── docs/
-├── samples/
 |   ├── ...
-│   └── encoded.wav         # Carrier containing a hidden file
+│   └── demo.wav            # Carrier containing a hidden file
+├── samples/
 ├── src/
 │   ├── main.py             # Command-line interface
 │   ├── codec.py            # Packing, unpacking, encoding and decoding
