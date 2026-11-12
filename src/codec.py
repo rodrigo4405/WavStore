@@ -93,7 +93,7 @@ def encode(path, name, out):
         samples.append(byte_to_freq(byte & 0x0F))
 
     Path(out).mkdir(exist_ok=True)
-    fpath = Path(out, name.removesufix(".wav") + ".wav")
+    fpath = Path(out, name.removesuffix(".wav") + ".wav")
 
     print("\nEncoding your file. Please wait...")
     with sf.SoundFile(fpath, "w", samplerate=SAMPLE_RATE, channels=1, subtype="PCM_U8") as f:
