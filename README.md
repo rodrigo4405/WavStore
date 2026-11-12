@@ -110,7 +110,7 @@ The encoding parameters are defined in `src/codec.py`. Both the encoder and deco
 
 ## Run from source
 
-You'll need **Python 3.14** and the packages listed in `requirements.txt`:
+You'll need **Python 3.10 or newer** and the packages listed in `requirements.txt`:
 
 - `numpy`
 - `soundfile`
